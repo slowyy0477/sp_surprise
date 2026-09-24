@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0810">
+<meta name="description" content="A little world, built one memory at a time. For Bashair.">
+<title>Bashair — My Lifeline ❤️</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icons/favicon.svg">
+
+<!-- Type: swap the families here AND in style.css --font-* tokens if you want something else.
+     If the CDN is unreachable the page falls back to Georgia / system sans and still looks right. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap">
+
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.replace('no-js','js');</script>
+</head>
+
+<body class="is-locked">
+
+<!-- ============================================================
+     AMBIENT LAYERS  (all decoration, all ignored by screen readers)
+     ============================================================ -->
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Shared SVG paint. Defined once so the teddy can be cloned into
+     more than one scene without duplicating gradient ids. -->
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="furGrad" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0"   stop-color="#d3a67c"/>
+      <stop offset="0.55" stop-color="#bd8a60"/>
+      <stop offset="1"   stop-color="#9c6c47"/>
+    </linearGradient>
+    <linearGradient id="furLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eeddcb"/>
+      <stop offset="1" stop-color="#dcc3a9"/>
+    </linearGradient>
+    <linearGradient id="scarfGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d9738c"/>
+      <stop offset="1" stop-color="#a94e69"/>
+    </linearGradient>
+    <linearGradient id="giftGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8f5f78"/>
+      <stop offset="1" stop-color="#5c3a4f"/>
+    </linearGradient>
+    <radialGradient id="heartGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0"   stop-color="#ff9fb4" stop-opacity=".95"/>
+      <stop offset="0.55" stop-color="#e5768f" stop-opacity=".55"/>
+      <stop offset="1"   stop-color="#e5768f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="softShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#000" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+
+<!-- ============================================================
+     SCENE 0 — THE OPENING GATE
+     Text lines and the button label come from CONFIG.intro in script.js
+     ============================================================ -->
+<section id="gate" class="gate" aria-label="Opening">
+  <div class="gate__inner">
+    <div class="gate__teddy" data-teddy-host data-teddy-variant="intro">
+      <!-- the teddy illustration is injected here by script.js -->
+    </div>
+
+    <div class="gate__copy">
+      <p class="gate__eyebrow" data-intro="eyebrow">for you</p>
+      <h1 class="gate__name" data-intro="line1">Hey Bashair...</h1>
+      <p class="gate__sub" data-intro="line2">I made a little world for you.</p>
+      <button type="button" class="enter" id="enterBtn" data-intro="button">
+        <span>Enter</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5C5.5 16 2 12.4 2 8.7 2 5.9 4.2 3.9 6.9 3.9c1.9 0 3.7 1 5.1 2.9 1.4-1.9 3.2-2.9 5.1-2.9C19.8 3.9 22 5.9 22 8.7c0 3.7-3.5 7.3-10 11.8z" fill="currentColor"/></svg>
+      </button>
+      <p class="gate__hint">She can tap the teddy while she waits — it notices.</p>
+    </div>
+  </div>
+  <p class="gate__foot">made with two hands and a lot of thinking about you</p>
+</section>
+
+
+<!-- ============================================================
+     THE WORLD  (7 chapters — revealed as she scrolls)
+     Chapter names are fixed in this file. Everything inside each
+     chapter is rendered from CONFIG in script.js.
+     ============================================================ -->
+<main id="world" class="world" hidden>
+
+  <nav class="rail" id="rail" aria-label="Chapters">
+    <ol class="rail__list">
+      <li><button type="button" class="rail__dot" data-goto="ch-01"><span class="rail__num">01</span><span class="rail__label">How It Started</span></button></li>
+      <li><button type="button" class="rail__dot" data-goto="ch-02"><span class="rail__num">02</span><span class="rail__label">Our Memories</span></button></li>
+      <li><button type="button" class="rail__dot" data-goto="ch-03"><span class="rail__num">03</span><span class="rail__label">Things I Love About You</span></button></li>
+      <li><button type="button" class="rail__dot" data-goto="ch-04"><span class="rail__num">04</span><span class="rail__label">What You Mean To Me</span></button></li>
+      <li><button type="button" class="rail__dot" data-goto="ch-05"><span class="rail__num">05</span><span class="rail__label">I&rsquo;m Sorry</span></button></li>
+      <li><button type="button" class="rail__dot" data-goto="ch-06"><span class="rail__num">06</span><span class="rail__label">A Letter For You</span></button></li>
+      <li><button type="button" class="rail__dot" data-goto="ch-07"><span class="rail__num">07</span><span class="rail__label">One Last Thing</span></button></li>
+    </ol>
+  </nav>
+
+  <!-- ---------- MASTHEAD ---------- -->
+  <header class="masthead" id="top">
+    <p class="masthead__eyebrow" data-config="masthead.eyebrow">a small world · seven chapters</p>
+    <h2 class="masthead__title" data-config="masthead.title">Bashair</h2>
+    <p class="masthead__sub" data-config="masthead.subtitle">My Lifeline</p>
+    <p class="masthead__note" data-config="masthead.note"></p>
+    <div class="masthead__cue" aria-hidden="true"><span></span></div>
+  </header>
+
+  <!-- ---------- 01 — HOW IT STARTED ---------- -->
+  <section class="chapter" id="ch-01" data-chapter="01" data-title="How It Started">
+    <div class="chapter__marker"><span class="chapter__num">01</span><span class="chapter__line" aria-hidden="true"></span></div>
+    <div class="chapter__head">
+      <h2 class="chapter__title">How It Started</h2>
+      <p class="chapter__lede" data-config="chapters.start.lede"></p>
+    </div>
+    <ol class="timeline" id="timeline"><!-- CONFIG.timeline --></ol>
+  </section>
+
+  <!-- ---------- 02 — OUR MEMORIES ---------- -->
+  <section class="chapter" id="ch-02" data-chapter="02" data-title="Our Memories">
+    <div class="chapter__marker"><span class="chapter__num">02</span><span class="chapter__line" aria-hidden="true"></span></div>
+    <div class="chapter__head">
+      <h2 class="chapter__title">Our Memories</h2>
+      <p class="chapter__lede" data-config="chapters.memories.lede"></p>
+    </div>
+
+    <!-- floating memory objects; tap one and it opens full-screen -->
+    <div class="orbit" id="orbit" role="group" aria-label="Tap a memory to open it">
+      <p class="orbit__hint" data-config="chapters.memories.hint">Tap any light.</p>
+      <div class="orbit__field" id="orbitField"><!-- CONFIG.memories --></div>
+    </div>
+
+    <!-- swipeable filmstrip -->
+    <div class="filmstrip">
+      <div class="filmstrip__head">
+        <h3 class="strip-title" data-config="chapters.memories.galleryTitle">The gallery</h3>
+        <p class="strip-note" data-config="chapters.memories.galleryNote"></p>
+        <div class="filmstrip__count" id="galleryCount" aria-hidden="true"></div>
+      </div>
+      <div class="filmstrip__track" id="galleryTrack" tabindex="0" role="region" aria-label="Photo gallery, swipe or use arrow keys"><!-- CONFIG.gallery --></div>
+      <div class="filmstrip__foot">
+        <button type="button" class="ghost-btn" id="galleryPrev" aria-label="Previous photo">←</button>
+        <div class="filmstrip__dots" id="galleryDots" role="tablist" aria-label="Gallery position"></div>
+        <button type="button" class="ghost-btn" id="galleryNext" aria-label="Next photo">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 03 — THINGS I LOVE ABOUT YOU ---------- -->
+  <section class="chapter" id="ch-03" data-chapter="03" data-title="Things I Love About You">
+    <div class="chapter__marker"><span class="chapter__num">03</span><span class="chapter__line" aria-hidden="true"></span></div>
+    <div class="chapter__head">
+      <h2 class="chapter__title">Things I Love About You</h2>
+      <p class="chapter__lede" data-config="chapters.reasons.lede"></p>
+    </div>
+    <div class="reasons" id="reasons">
+      <div class="reasons__meta">
+        <span class="reasons__count" id="reasonsCount">0 / 0</span>
+        <span class="reasons__count-label" data-config="chapters.reasons.counterLabel">found</span>
+        <button type="button" class="ghost-btn ghost-btn--sm" id="revealAllReasons">reveal them all</button>
+      </div>
+      <div class="reasons__field" id="reasonsField"><!-- CONFIG.reasons --></div>
+    </div>
+
+    <!-- the little things — a shelf, not a card grid -->
+    <div class="shelf" id="shelf">
+      <h3 class="strip-title" data-config="chapters.little.title">Little things</h3>
+      <p class="strip-note" data-config="chapters.little.note"></p>
+      <ul class="shelf__row" id="shelfRow"><!-- CONFIG.littleThings --></ul>
+      <div class="shelf__readout" id="shelfReadout" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ---------- 04 — WHAT YOU MEAN TO ME ---------- -->
+  <section class="chapter chapter--statement" id="ch-04" data-chapter="04" data-title="What You Mean To Me">
+    <div class="chapter__marker"><span class="chapter__num">04</span><span class="chapter__line" aria-hidden="true"></span></div>
+    <p class="statement" id="statement" data-config="chapters.meaning.statement"></p>
+    <div class="chapter__head chapter__head--tight">
+      <h2 class="chapter__title">What You Mean To Me</h2>
+      <p class="chapter__lede" data-config="chapters.meaning.lede"></p>
+    </div>
+
+    <div class="secret-world" id="secretWorld">
+      <div class="secret-world__sky" id="secretSky" role="group" aria-label="A hidden place — tap the lights">
+        <!-- CONFIG.secrets -->
+      </div>
+      <div class="secret-world__panel" id="secretPanel" aria-live="polite">
+        <p class="secret-world__hint" data-config="chapters.secret.hint">Some things I never said out loud.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 05 — I'M SORRY ---------- -->
+  <section class="chapter" id="ch-05" data-chapter="05" data-title="I'm Sorry">
+    <div class="chapter__marker"><span class="chapter__num">05</span><span class="chapter__line" aria-hidden="true"></span></div>
+    <div class="chapter__head">
+      <h2 class="chapter__title">I&rsquo;m Sorry</h2>
+      <p class="chapter__lede" data-config="chapters.sorry.lede"></p>
+    </div>
+
+    <div class="letter-gate" id="letterGate">
+      <p class="letter-gate__pre" data-config="chapters.sorry.pre1"></p>
+      <p class="letter-gate__pre" data-config="chapters.sorry.pre2"></p>
+      <button type="button" class="envelope" id="openApology" aria-expanded="false" aria-controls="apologyLetter">
+        <span class="envelope__art" aria-hidden="true">
+          <svg viewBox="0 0 120 84">
+            <rect x="4" y="8" width="112" height="70" rx="6" fill="#2a1c28" stroke="rgba(255,255,255,.16)"/>
+            <path d="M4 14 60 52l56-38" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+            <circle cx="60" cy="52" r="13" fill="#b8455f" opacity=".92"/>
+            <path d="M60 46c-3-3-8-1.6-8 2 0 3.2 4 6 8 8.6 4-2.6 8-5.4 8-8.6 0-3.6-5-5-8-2z" fill="#f3d7dd"/>
+          </svg>
+        </span>
+        <span class="envelope__cta" data-config="chapters.sorry.cta">Open it</span>
+        <span class="envelope__sub" data-config="chapters.sorry.ctaSub"></span>
+      </button>
+      <p class="letter-gate__footnote" data-config="chapters.sorry.footnote"></p>
+    </div>
+
+    <article class="letter" id="apologyLetter" hidden aria-label="A letter">
+      <div class="letter__paper">
+        <p class="letter__greeting" data-letter="greeting"></p>
+        <div class="letter__body" data-letter="body"></div>
+        <p class="letter__sign" data-letter="sign"></p>
+      </div>
+      <div class="letter__tools">
+        <button type="button" class="ghost-btn" id="replayApology">read it again</button>
+      </div>
+    </article>
+  </section>
+
+  <!-- ---------- 06 — A LETTER FOR YOU ---------- -->
+  <section class="chapter chapter--letter" id="ch-06" data-chapter="06" data-title="A Letter For You">
+    <div class="chapter__marker"><span class="chapter__num">06</span><span class="chapter__line" aria-hidden="true"></span></div>
+    <div class="chapter__head">
+      <h2 class="chapter__title">A Letter For You</h2>
+      <p class="chapter__lede" data-config="chapters.letter.lede"></p>
+    </div>
+    <article class="long-letter" id="longLetter" aria-label="A longer letter">
+      <p class="long-letter__date" id="longLetterDate"></p>
+      <div class="long-letter__body" id="longLetterBody"></div>
+      <p class="long-letter__sign" id="longLetterSign"></p>
+    </article>
+  </section>
+
+  <!-- ---------- 07 — ONE LAST THING ---------- -->
+  <section class="chapter chapter--final" id="ch-07" data-chapter="07" data-title="One Last Thing">
+    <div class="final">
+      <p class="final__eyebrow" data-config="chapters.final.eyebrow">one last thing</p>
+      <div class="final__teddy" data-teddy-host data-teddy-variant="final">
+        <!-- teddy, holding a glowing heart -->
+      </div>
+      <p class="final__name" data-final="line1">Bashair...</p>
+      <p class="final__line" data-final="line2"></p>
+      <div class="final__message" id="finalMessage"></div>
+      <p class="final__made" data-final="made">Made for you ❤️</p>
+      <button type="button" class="hug" id="hugBtn" aria-describedby="hugNote">
+        <span class="hug__ring" aria-hidden="true"></span>
+        <span class="hug__text" data-final="hugCta">Give the teddy a hug</span>
+      </button>
+      <p class="hug__note" id="hugNote" data-final="hugNote"></p>
+      <div class="final__echo" id="hugEcho" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <p data-config="footer.line"></p>
+    <p class="colophon__tiny" data-config="footer.tiny"></p>
+    <button type="button" class="ghost-btn ghost-btn--sm" id="toTop">back to the top</button>
+  </footer>
+</main>
+
+
+<!-- ============================================================
+     OVERLAYS
+     ============================================================ -->
+<div class="overlay moment" id="moment" hidden>
+  <div class="overlay__scrim" data-close="moment"></div>
+  <figure class="moment__card" role="dialog" aria-modal="true" aria-labelledby="momentTitle">
+    <div class="moment__media">
+      <img id="momentImg" src="" alt="" decoding="async">
+      <div class="moment__media-fallback" aria-hidden="true"></div>
+    </div>
+    <figcaption class="moment__text">
+      <p class="moment__date" id="momentDate"></p>
+      <h3 class="moment__title" id="momentTitle"></h3>
+      <p class="moment__story" id="momentStory"></p>
+    </figcaption>
+    <div class="moment__tools">
+      <button type="button" class="ghost-btn" id="momentPrev" aria-label="Previous memory">←</button>
+      <button type="button" class="ghost-btn" id="momentNext" aria-label="Next memory">→</button>
+      <button type="button" class="ghost-btn ghost-btn--wide" data-close="moment">close</button>
+    </div>
+  </figure>
+</div>
+
+<div class="overlay lightbox" id="lightbox" hidden>
+  <div class="overlay__scrim" data-close="lightbox"></div>
+  <figure class="lightbox__frame" role="dialog" aria-modal="true" aria-labelledby="lightboxCaption">
+    <img id="lightboxImg" src="" alt="" decoding="async">
+    <figcaption id="lightboxCaption" class="lightbox__caption"></figcaption>
+    <div class="lightbox__tools">
+      <button type="button" class="ghost-btn" id="lightboxZoom">zoom</button>
+      <button type="button" class="ghost-btn" data-close="lightbox">close</button>
+    </div>
+  </figure>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<!-- ============================================================
+     MUSIC PLAYER — never autoplays
+     ============================================================ -->
+<div class="player" id="player" hidden>
+  <audio id="audio" preload="metadata" loop></audio>
+  <button type="button" class="player__play" id="playBtn" aria-label="Play music">
+    <svg viewBox="0 0 24 24" class="player__icon player__icon--play" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+    <svg viewBox="0 0 24 24" class="player__icon player__icon--pause" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z" fill="currentColor"/></svg>
+  </button>
+  <div class="player__body">
+    <p class="player__title" id="playerTitle">music</p>
+    <button type="button" class="player__bar" id="seekBar" aria-label="Seek in track"><span class="player__fill" id="seekFill"></span></button>
+    <p class="player__time"><span id="timeNow">0:00</span> <span class="player__sep">/</span> <span id="timeTotal">0:00</span></p>
+  </div>
+</div>
+
+<noscript>
+  <div class="noscript">This little world needs JavaScript switched on to move. The words are still here — they just can&rsquo;t breathe without it.</div>
+</noscript>
+
+<script src="script.js" defer></script>
+</body>
+</html>
